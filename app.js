@@ -23,13 +23,13 @@ const router = () => {
     },
   ];
 
-  const matchRoutes = routes.map((item) => {
+  const matchRoute = routes.map((item) => {
     return {
       route: item,
-      isMatch: location.pathname == item.path,
+      isMatch: location.pathname === item.path,
     };
   });
-  const match = matchRoutes.find((item) => {
+  let match = matchRoute.find((item) => {
     return item.isMatch;
   });
 
@@ -39,7 +39,8 @@ const router = () => {
       isMatch: true,
     };
   }
-  document.querySelector("#app").innerHTML = match.route.view;
+
+  document.querySelector("#app").innerHTML = match.route.view();
 };
 
 window.addEventListener("popstate", router);
@@ -47,8 +48,8 @@ window.addEventListener("popstate", router);
 document.addEventListener("DOMContentLoaded", () => {
   document.body.addEventListener("click", (e) => {
     e.preventDefault();
-    if (e.target.matches("[data-linf]")) {
-      navigator(e.target.href);
+    if (e.target.matches("[data-link]")) {
+      navTo(e.target.href);
     }
   });
   router();
